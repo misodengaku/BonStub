@@ -8,15 +8,18 @@ HINSTANCE lib;
 IBonDriver *tuner;
 
 
-int _tmain(int argc, _TCHAR* argv[])
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	int argc;
+	LPTSTR *argv;
+	argv = CommandLineToArgvW(GetCommandLine(), &argc);
 	if (argc != 2)
 	{
 		printf("argument is invalid.\n");
 		return 1;
 	}
 	
-	bool isBonDriverExists = PathFileExists(argv[1]);
+	BOOL isBonDriverExists = PathFileExists(argv[1]);
 	if (!isBonDriverExists)
 	{
 		printf("%s is invalid path.\n", argv[1]);
@@ -27,7 +30,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		if (OpenTuner())
 		{
-			system("pause");
+			getchar();
 			// 適当
 			CloseTuner();
 			UnloadBonDriver();
@@ -45,7 +48,6 @@ bool LoadBonDriver(LPCTSTR pszFileName)
 
 	if (lib == NULL) {
 		const DWORD ErrorCode = GetLastError();
-		TCHAR szText[MAX_PATH + 64];
 
 		printf("\"%s\" が読み込めません。\n", pszFileName);
 
@@ -129,7 +131,7 @@ bool OpenTuner()
 		return false;
 	}
 
-	bool bTunerOpened;
+	BOOL bTunerOpened;
 
 	try {
 		// チューナを開く
