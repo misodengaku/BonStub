@@ -30,10 +30,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		if (OpenTuner())
 		{
-			getchar();
 			// 適当
-			CloseTuner();
-			UnloadBonDriver();
+			while (1)
+			{
+				/* 
+				 無限スリープ
+				 終了時は仕方ないので強制終了
+				 解放されないけどSpinelのBonDriverを見る限りではうまいことやってくれてるっぽいのでこれで行く
+				*/
+				Sleep(INFINITE);
+				//CloseTuner();
+				//UnloadBonDriver();
+			}
 		}
 	}
 
